@@ -52,4 +52,7 @@ def mediana(vals_in):
         k=len(vals)//2
         mediana=(vals[k-1]+vals[k])/2
     return mediana
-        
+def moda():
+    for v in vals:
+        if v not in categorias:
+            categorias.append(v)
