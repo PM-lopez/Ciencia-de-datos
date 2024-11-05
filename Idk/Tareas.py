@@ -129,4 +129,5 @@ def rango(vals):
     for v in vals_in:
         if math.isfinite(v):
             vals.append(v)
+		
     return max(vals)-min(vals)
