@@ -25,4 +25,4 @@ for lin in archivo:
         SpType.append(str(lin.split()[4]))
 
 archivo.close()
-print(moda(stype))
+print(moda(SpType))
