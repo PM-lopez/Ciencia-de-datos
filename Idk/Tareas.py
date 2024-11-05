@@ -80,6 +80,7 @@ def moda(vals):
             categorias.append(v)
     #obtener el numero de cuentas en la muestra
     #para cada una de las categorias
+    cuentas=[]
     for c in categorias:
         n=0
         for val in vals:
