@@ -107,9 +107,9 @@ def moda(vals):
 
 
 
-def rango(vals):
+def rango(vals_in):
     """
-    Calcula la mediana de una lista de numeros
+    Calcula el rango de una lista de numeros
     Detecta y elimina valores NaN
     
     Paràmetros
@@ -131,3 +131,27 @@ def rango(vals):
             vals.append(v)
 		
     return max(vals)-min(vals)
+
+
+def varianza(vals_in):
+    """
+    Calcula la varianza de una lista de numeros
+    Detecta y elimina valores NaN
+    
+    Paràmetros
+    ----------
+    vals: lista
+        lista con los numeros
+        
+    Retorna
+    -------
+    varianza:float
+        varianza de los numeros (excluyendo NaNs)
+    """
+    
+    
+    #eliminamos los valores que sean NaNs
+    vals=[]
+    for v in vals_in:
+        if math.isfinite(v):
+            vals.append(v)
