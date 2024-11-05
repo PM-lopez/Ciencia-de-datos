@@ -76,31 +76,31 @@ def moda(vals):
     #encontrar el conjunto de elementos unicos
     categorias=[]
     for v in vals:
-	if v not in categorias:
-	    categorias.append(v)
-	#obtener el numero de cuentas en la muestra
-	#para cada una de las categorias
+    if v not in categorias:
+        categorias.append(v)
+    #obtener el numero de cuentas en la muestra
+    #para cada una de las categorias
     for c in categorias:
-	n=0
-	for val in vals:
-	    if val==c:
-		n=n+1
-	cuentas.append(n)
+    n=0
+    for val in vals:
+        if val==c:
+        n=n+1
+    cuentas.append(n)
 
     #guess and check
     i_max=0
     val_max=cuentas[0]
     for i in range(1,len(cuentas)):
         if cuentas[i]> val_max:  
-	    i_max=i
-	    val_max=cuentas[i]
+        i_max=i
+        val_max=cuentas[i]
     # determinar todas las categorias que tengan el numero
     # maximo de cuentas	
     modas=[]
     for i in range(len(cuentas)):
         if cuentas[i]==vals_max:
-	    modas.append(categorias[i])
-	  
+            modas.append(categorias[i])
+  
     #retorno la moda
     #moda= categorias[i_max]
     return modas
@@ -129,7 +129,7 @@ def rango(vals_in):
     for v in vals_in:
         if math.isfinite(v):
             vals.append(v)
-		
+
     return max(vals)-min(vals)
 
 
