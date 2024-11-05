@@ -1,5 +1,5 @@
 
-from Tareas import moda
+from Tareas import moda,promedio,mediana
 import numpy as np
 archivo=open("bsc_sel.dat","r")
 archivo.readline()
@@ -25,4 +25,4 @@ for lin in archivo:
         SpType.append(str(lin.split()[4]))
 
 archivo.close()
-print("La moda es: ",moda(SpType))
+print(moda(stype))
