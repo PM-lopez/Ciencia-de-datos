@@ -76,24 +76,24 @@ def moda(vals):
     #encontrar el conjunto de elementos unicos
     categorias=[]
     for v in vals:
-    if v not in categorias:
-        categorias.append(v)
+        if v not in categorias:
+            categorias.append(v)
     #obtener el numero de cuentas en la muestra
     #para cada una de las categorias
     for c in categorias:
-    n=0
-    for val in vals:
-        if val==c:
-        n=n+1
-    cuentas.append(n)
+        n=0
+        for val in vals:
+            if val==c:
+                n=n+1
+        cuentas.append(n)
 
     #guess and check
     i_max=0
     val_max=cuentas[0]
     for i in range(1,len(cuentas)):
         if cuentas[i]> val_max:  
-        i_max=i
-        val_max=cuentas[i]
+            i_max=i
+            val_max=cuentas[i]
     # determinar todas las categorias que tengan el numero
     # maximo de cuentas	
     modas=[]
@@ -155,6 +155,38 @@ def varianza(vals_in):
     for v in vals_in:
         if math.isfinite(v):
             vals.append(v)
+            
+    #estimar el promedio
+    prom=promedio(vals)
+    
+    #Estimamos las desviaciones cuadraticas medias
+    dcm=[]
     for i in vals:
-        varianza=((i-(sum(vals)/len(vals)))**(2))/len(vals)
+        dcm.append((v-prom)**2)
+    varianza=sum(dcm)/len(vals)
+    
     return varianza
+
+
+def desviacion_estandar(vals_in):
+    """
+    Calcula la varianza de una lista de numeros
+    Detecta y elimina valores NaN
+    
+    Paràmetros
+    ----------
+    vals: lista
+        lista con los numeros
+        
+    Retorna
+    -------
+    varianza:float
+        varianza de los numeros (excluyendo NaNs)
+    """
+    
+    
+    #eliminamos los valores que sean NaNs
+    vals=[]
+    for v in vals_in:
+        if math.isfinite(v):
+            vals.append(v)
