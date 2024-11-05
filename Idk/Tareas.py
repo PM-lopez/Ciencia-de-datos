@@ -91,9 +91,9 @@ def moda(vals):
     i_max=0
     val_max=cuentas[0]
     for i in range(1,len(cuentas)):
-       if cuentas[i]> val_max:
-	  i_max=i
-	  val_max=cuentas[i]
+        if cuentas[i]> val_max:  
+	    i_max=i
+	    val_max=cuentas[i]
     # determinar todas las categorias que tengan el numero
     # maximo de cuentas	
     modas=[]
