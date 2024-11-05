@@ -155,3 +155,6 @@ def varianza(vals_in):
     for v in vals_in:
         if math.isfinite(v):
             vals.append(v)
+	for i in vals:
+		varianza=((i-(sum(vals)/len(vals)))**(2))/len(vals)
+	return varianza
