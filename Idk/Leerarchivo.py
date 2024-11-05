@@ -1,5 +1,5 @@
 
-from Tareas import moda,promedio,mediana
+from Tareas import moda,promedio,mediana,rango,varianza
 import numpy as np
 archivo=open("bsc_sel.dat","r")
 archivo.readline()
@@ -25,4 +25,4 @@ for lin in archivo:
         SpType.append(str(lin.split()[4]))
 
 archivo.close()
-print(moda(SpType))
+print(f"Rango: {rango(Vmag)}")
