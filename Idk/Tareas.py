@@ -104,3 +104,9 @@ def moda(vals):
     #retorno la moda
     #moda= categorias[i_max]
     return modas
+
+
+
+def rango(vals):
+    vals=vals,sort()
+    return vals[0]-vals[len(vals)]
