@@ -108,5 +108,25 @@ def moda(vals):
 
 
 def rango(vals):
-    vals=vals,sort()
-    return vals[0]-vals[len(vals)]
+    """
+    Calcula la mediana de una lista de numeros
+    Detecta y elimina valores NaN
+    
+    Paràmetros
+    ----------
+    vals: lista
+        lista con los numeros
+        
+    Retorna
+    -------
+    rango:float
+        rango de los numeros (excluyendo NaNs)
+    """
+    
+    
+    #eliminamos los valores que sean NaNs
+    vals=[]
+    for v in vals_in:
+        if math.isfinite(v):
+            vals.append(v)
+    return max(vals)-min(vals)
