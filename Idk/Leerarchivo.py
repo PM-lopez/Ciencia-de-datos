@@ -1,5 +1,5 @@
 
-from Tareas import moda,promedio,mediana,rango,varianza
+from Tareas import moda,promedio,mediana,rango,varianza,desviacion_estandar,mad,rango_intercuartilico,percentil
 import numpy as np
 archivo=open("bsc_sel.dat","r")
 archivo.readline()
@@ -26,3 +26,12 @@ for lin in archivo:
 
 archivo.close()
 print(f"Rango: {rango(Vmag)}")
+print(f"Promedio de Vmag: {promedio(Vmag)}")
+print(f"Mediana de Vmag: {mediana(Vmag)}")
+
+print(f"Percentil 1% {percentil(Vmag,1)}")
+
+print(f"Varianza: {varianza(Vmag)}")
+print(f"Desviacion estandar {desviacion_estandar(Vmag)}")
+print(f"Rnago intercuartilico: {rango_intercuartilico(Vmag)}")
+print(f"MAD: {mad(Vmag)}")
