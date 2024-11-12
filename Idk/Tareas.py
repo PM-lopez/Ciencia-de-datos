@@ -276,3 +276,34 @@ def rango_intercuartilico(vals_in):
             vals.append(v)
     iqr=percentil(vals,75)-percentil(vals,25)
     return iqr
+def mad(vals_in):
+    """
+    Calcula el MAD de una lista de numeros
+    Detecta y elimina valores NaN
+    
+    Paràmetros
+    ----------
+    vals: lista
+        lista con los numeros
+        
+    Retorna
+    -------
+    MAD:float
+        MAD de los numeros (excluyendo NaNs)
+    """
+    
+    
+    #eliminamos los valores que sean NaNs
+    vals=[]
+    for v in vals_in:
+        if math.isfinite(v):
+            vals.append(v)
+    #calculamos la mediana de los datos orginales
+    mediana1=mediana(vals)
+    #creamos una lista vacia para ingresar cada dato restado con la mediana1 y su valor absoluto
+    desviaciones_med=[]
+    for i in vals:
+        desviaciones_med.append(abs(i-mediana1))
+    #por ultimo se calcula la mediana de la lista el cual sera el MAD
+    mad=mediana(desviaciones_med)
+    return mad
