@@ -171,7 +171,7 @@ def varianza(vals_in):
 
 def desviacion_estandar(vals_in):
     """
-    Calcula la varianza de una lista de numeros
+    Calcula la desviacion estandar de una lista de numeros
     Detecta y elimina valores NaN
     
     Paràmetros
@@ -181,8 +181,8 @@ def desviacion_estandar(vals_in):
         
     Retorna
     -------
-    varianza:float
-        varianza de los numeros (excluyendo NaNs)
+    desviacion estandar:float
+        desviacion estandar de los numeros (excluyendo NaNs)
     """
     
     
@@ -201,3 +201,78 @@ def desviacion_estandar(vals_in):
     varianza=sum(dcm)/len(vals)
     
     return varianza**(1/2)
+
+
+def percentil(vals_in,q,interpolacion="lineal"):
+    """
+    Calcula el percentil de una lista de numeros
+    Detecta y elimina valores NaN
+    
+    Paràmetros
+    ----------
+    vals: lista
+        lista con los numeros
+        
+    Retorna
+    -------
+    percentil:float
+        percentil de los numeros (excluyendo NaNs)
+    """
+    
+    
+    #eliminamos los valores que sean NaNs
+    vals=[]
+    for v in vals_in:
+        if math.isfinite(v):
+            vals.append(v)
+
+    # Ordenar la lista dada como input in-place
+    vals.sort()
+
+    if interpolacion=="lineal":
+        #Distancia entre el primer y ultimo elemtno,
+        #a ki kargi del eje de indices
+        dist=len(vals)-1
+
+        #calcular el indice efectio del percentil
+        ieff=dist*q/100
+        
+        #parte fraccional
+        fraction=ieff-int(ieff)
+        
+        #indice inferior
+        i=int((ieff)//1)
+        j=i+1
+
+        #La interoplacion lineal se implementa con
+        # val_inf + (val_sup)- val_inf)*fraction,
+        percentile=vals[i]+vals[j]-vals[i]*fraction
+
+        return percentile
+        
+        percentile=vals
+    
+def rango_intercuartilico(vals_in):
+    """
+    Calcula el rango intercuartilico de una lista de numeros
+    Detecta y elimina valores NaN
+    
+    Paràmetros
+    ----------
+    vals: lista
+        lista con los numeros
+        
+    Retorna
+    -------
+    rango intercuartilico:float
+        rango intercuartilico de los numeros (excluyendo NaNs)
+    """
+    
+    
+    #eliminamos los valores que sean NaNs
+    vals=[]
+    for v in vals_in:
+        if math.isfinite(v):
+            vals.append(v)
+    iqr=percentil(vals,75)-percentil(vals,25)
+    return iqr
