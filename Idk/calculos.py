@@ -1,4 +1,4 @@
-from estadistica_univariada import promedio
+from Tareas import promedio
 import numpy as np
 entrada= open("velocidades_Ocen.dat","r")
 entrada.readline()
