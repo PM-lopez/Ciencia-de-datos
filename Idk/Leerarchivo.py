@@ -41,6 +41,11 @@ print(f"MAD: {mad(Vmag)}")
 
 
 
+
+
+
+
+
 entrada= open("velocidades_Ocen.dat","r")
 entrada.readline()
 nombre = []
@@ -59,6 +64,11 @@ entrada.close()
 
 resultado= promedio(vhelio)
 print("promedio = ", resultado)
+
+
+
+
+
 
 
 
@@ -91,3 +101,61 @@ print("Distancia IQR: ", rango_intercuartil(distancia))
 print("Distancia MAD: ", mad(distancia))
 print("Distancia desviacion_estandar: ", desviacion_estandar(distancia))
 print("Moda de tipo de galaxias: ", moda(tipos_galaxias))
+
+
+
+
+
+
+
+archivo=open("omegaCen.dat","r")
+archivo.readline()
+vhelio=[]
+for lin in archivo:
+    vhelio.append(float(lin.split()[8]))
+archivo.close()
+
+bines=[]
+ancho=(310+150)/70
+for i in range(70):
+    borde=-150+i*ancho
+    bines.append(borde)
+
+fig=plt.figure(figsize=(4,3),dpi=100)
+ax1=fig.add_subplot(111)
+ax1.hist(vhelio,color="gray",alpha=0.7,bins=bines)
+ax1.set_xlabel(r"V$_{helio}$ (km/s)", fontsize=13)
+ax1.set_ylabel("N",fontsize=13)
+ax1.set_xlim(-150,300)
+ax1.set_title("Metodo normal")
+plt.show()
+
+binesS=int(np.log2(len(vhelio))+1)
+fig=plt.figure(figsize=(4,3),dpi=100)
+ax2=fig.add_subplot(111)
+ax2.hist(vhelio,color="red",alpha=0.7,bins=binesS)
+ax2.set_xlabel(r"V$_{helio}$ (km/s)", fontsize=13)
+ax2.set_ylabel("N",fontsize=13)
+ax2.set_title("Metodo Stutges")
+plt.show()
+
+anchoSc=3.49*desviacion_estandar(vhelio)*(len(vhelio))**(-1/3)
+binesSc=int((300+150)/anchoSc)
+fig=plt.figure(figsize=(4,3),dpi=100)
+ax3=fig.add_subplot(111)
+ax3.hist(vhelio,color="yellow",alpha=0.7,bins=binesSc)
+ax3.set_xlabel(r"V$_{helio}$ (km/s)", fontsize=13)
+ax3.set_ylabel("N",fontsize=13)
+ax3.set_title("Regla de Scott")
+plt.show()
+
+anchoFD=2*rango_intercuartilico(vhelio)*(len(vhelio))**(-1/3)
+binesFD=int((300+150)/anchoFD)
+fig=plt.figure(figsize=(4,3),dpi=100)
+ax4=fig.add_subplot(111)
+ax4.hist(vhelio,color="blue",alpha=0.7,bins=binesFD)
+ax4.set_xlabel(r"V$_{helio}$ (km/s)", fontsize=13)
+ax4.set_ylabel("N",fontsize=13)
+ax4.set_xlim(-250,300)
+ax4.set_title("Regla de Freeman & Diaconis")
+plt.show()
