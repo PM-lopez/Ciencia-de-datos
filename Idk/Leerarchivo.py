@@ -178,3 +178,12 @@ for lin in archivo:
     else:
         RP.append(float(lin.split()[7]))
 archivo.close()
+import matplotlib.pyplot as plt
+from Tareas import covarianza,correlacion
+
+fig=plt.figure(1,figsize=(4,4),dpi=100)
+ax1=fig.add_subplot(111)
+ax1.set_xlim(7,19)
+ax1.set_ylim(7,19)
+ax1.scatter(BP,RP,s=0.1)
+plt.show()
