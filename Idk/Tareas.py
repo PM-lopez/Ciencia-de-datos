@@ -325,7 +325,7 @@ def covarianza(vals_in,vals_in2):
     """
     
     
-      #eliminamos los valores que sean NaNs
+    #eliminamos los valores que sean NaNs
     x=[]
     for v in vals_in:
         if math.isfinite(v):
@@ -335,6 +335,8 @@ def covarianza(vals_in,vals_in2):
     for v in vals_in2:         
         if math.isfinite(v):
               y.append(v)
+
+    #se realiza la formula de covarianza
     suma=0
     for i in range(len(x)):
         acum=(x[i]-promedio(x))*(y[i]-promedio(y))
