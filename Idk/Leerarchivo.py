@@ -166,24 +166,30 @@ plt.show()
 
 archivo=open("estrellas_vecindadSolar_all.dat","r")
 archivo.readline()
+BP_tmp=[]
+RP_tmp=[]
+met_tmp=[]
+for lin in archivo:
+    met_tmp.append(float(lin.split()[3]))
+    BP_tmp.append(float(lin.split()[6]))
+    RP_tmp.append(float(lin.split()[7]))
+archivo.close()
 BP=[]
 RP=[]
-for lin in archivo:
-    if lin.split()[6]=='""':
-        BP.append(np.nan)
-    else:
-        BP.append(float(lin.split()[6]))
-    if lin.split()[7]=='""':
-        RP.append(np.nan)
-    else:
-        RP.append(float(lin.split()[7]))
-archivo.close()
-import matplotlib.pyplot as plt
-from Tareas import covarianza,correlacion
+met=[]
+for v0,v1,v2 in zip(met_tmp,BP_tmp,RP_tmp):
+    if (v1>0) & (v2>0):
+        met.append(v0)
+        BP.append(v1)
+        RP.append(v2)
+
+print("covarianza= ",covarianza(BP,RP))
+print("correlacion= ",correlacion(BP,RP))
 
 fig=plt.figure(1,figsize=(4,4),dpi=100)
 ax1=fig.add_subplot(111)
-ax1.set_xlim(7,19)
-ax1.set_ylim(7,19)
-ax1.scatter(BP,RP,s=0.1)
+#ax1.set_xlim(7,19)
+#ax1.set_ylim(7,19)
+ax1.scatter(BP,RP,marker=".",ec="none",fc="black",s=1)
 plt.show()
+
