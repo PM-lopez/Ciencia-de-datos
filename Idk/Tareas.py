@@ -335,10 +335,10 @@ def covarianza(vals_in,vals_in2):
     for v in vals_in2:         
         if math.isfinite(v):
               y.append(v)
-  
-    covarianza=0
+    suma=0
     for i in range(len(x)):
         acum=(x[i]-promedio(x))*(y[i]-promedio(y))
-        acum2=acum/len(x)
-        covarianza+=acum2
+        suma+=acum
+    covarianza=suma/(len(x))
     return covarianza
+
