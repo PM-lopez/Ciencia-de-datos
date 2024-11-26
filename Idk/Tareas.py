@@ -307,3 +307,38 @@ def mad(vals_in):
     #por ultimo se calcula la mediana de la lista el cual sera el MAD
     mad=mediana(desviaciones_med)
     return mad
+
+def covarianza(vals_in,vals_in2):
+    """
+    Calcula la covarianza de una lista de numeros
+    Detecta y elimina valores NaN
+    
+    Paràmetros
+    ----------
+    vals: lista
+        lista con los numeros
+        
+    Retorna
+    -------
+    covarianza:float
+        covarianza de los numeros (excluyendo NaNs)
+    """
+    
+    
+      #eliminamos los valores que sean NaNs
+    x=[]
+    for v in vals_in:
+        if math.isfinite(v):
+              x.append(v)
+  
+    y=[]
+    for v in vals_in2:         
+        if math.isfinite(v):
+              y.append(v)
+  
+    covarianza=0
+    for i in range(len(x)):
+        acum=(x[i]-promedio(x))*(y[i]-promedio(y))
+        acum2=acum/len(x)
+        covarianza+=acum2
+    return covarianza
