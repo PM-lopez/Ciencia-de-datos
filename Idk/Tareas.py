@@ -308,7 +308,7 @@ def mad(vals_in):
     mad=mediana(desviaciones_med)
     return mad
 
-def covarianza(vals_in,vals_in2):
+def covarianza(vals_x,vals_y):
     """
     Calcula la covarianza de una lista de numeros
     Detecta y elimina valores NaN
@@ -325,22 +325,52 @@ def covarianza(vals_in,vals_in2):
     """
     
     
-    #eliminamos los valores que sean NaNs
+      #eliminamos los valores que sean NaNs
     x=[]
-    for v in vals_in:
-        if math.isfinite(v):
-              x.append(v)
-  
     y=[]
-    for v in vals_in2:         
-        if math.isfinite(v):
-              y.append(v)
+    
+    for i in range(len(vals_x)):
+        if math.isfinite(vals_x[i])&math.isfinite(vals_y[i]): 
+            x.append(vals_x[i])
+            y.append(vals_y[i])
+  
 
-    #se realiza la formula de covarianza
-    suma=0
-    for i in range(len(x)):
-        acum=(x[i]-promedio(x))*(y[i]-promedio(y))
-        suma+=acum
-    covarianza=suma/(len(x))
+    p_x=promedio(x)
+    p_y=promedio(y)
+    
+    tt=[]
+    
+    for xv,yv in zip(x,y):
+        tt.append( (xv-p_x)*(yv-p_y))
+        
+    covarianza=sum(tt)/len(tt)
     return covarianza
 
+def correlacion(vals_x,vals_y):
+        """
+    Calcula la coeficiente de correlacion de una lista de numeros
+    Detecta y elimina valores NaN
+    
+    Paràmetros
+    ----------
+    vals: lista
+        lista con los numeros
+        
+    Retorna
+    -------
+    correlacion:float
+        correlacion de los numeros (excluyendo NaNs)
+    """
+    
+    
+      #eliminamos los valores que sean NaNs
+    x=[]
+    y=[]
+    
+    for i in range(len(vals_x)):
+        if math.isfinite(vals_x[i])&math.isfinite(vals_y[i]): 
+            x.append(vals_x[i])
+            y.append(vals_y[i])
+
+    rxy=covarianza(x,y)/(varianza(x)*varianza(y))
+    return rxy
