@@ -159,4 +159,22 @@ ax4.set_ylabel("N",fontsize=13)
 ax4.set_xlim(-250,300)
 ax4.set_title("Regla de Freeman & Diaconis")
 plt.show()
- 
+
+
+
+
+
+archivo=open("estrellas_vecindadSolar_all.dat","r")
+archivo.readline()
+BP=[]
+RP=[]
+for lin in archivo:
+    if lin.split()[6]=='""':
+        BP.append(np.nan)
+    else:
+        BP.append(float(lin.split()[6]))
+    if lin.split()[7]=='""':
+        RP.append(np.nan)
+    else:
+        RP.append(float(lin.split()[7]))
+archivo.close()
