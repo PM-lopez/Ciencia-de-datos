@@ -347,7 +347,7 @@ def covarianza(vals_x,vals_y):
     return covarianza
 
 def correlacion(vals_x,vals_y):
-        """
+    """
     Calcula la coeficiente de correlacion de una lista de numeros
     Detecta y elimina valores NaN
     
@@ -360,10 +360,8 @@ def correlacion(vals_x,vals_y):
     -------
     correlacion:float
         correlacion de los numeros (excluyendo NaNs)
-    """
-    
-    
-      #eliminamos los valores que sean NaNs
+    """  
+    #eliminamos los valores que sean NaNs
     x=[]
     y=[]
     
