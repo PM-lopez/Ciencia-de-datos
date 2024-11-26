@@ -186,10 +186,14 @@ for v0,v1,v2 in zip(met_tmp,BP_tmp,RP_tmp):
 print("covarianza= ",covarianza(BP,RP))
 print("correlacion= ",correlacion(BP,RP))
 
-fig=plt.figure(1,figsize=(4,4),dpi=100)
+fig=plt.figure(1,figsize=(4,4),dpi=120)
 ax1=fig.add_subplot(111)
-#ax1.set_xlim(7,19)
-#ax1.set_ylim(7,19)
-ax1.scatter(BP,RP,marker=".",ec="none",fc="black",s=1)
+ax1.set_xlabel("BP")
+ax1.set_ylabel("RP")
+cm=plt.cm.get_cmap("jet")
+sc=ax1.scatter(BP,RP,marker=".",ec="none",c=met,cmap=cm,s=1,vmin=0.5,vmax=0.3)
+cb=plt.colorbar(sc)
+cb.set_label("Metalicidad")
 plt.show()
+
 
