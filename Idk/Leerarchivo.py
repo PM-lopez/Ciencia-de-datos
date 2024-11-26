@@ -159,3 +159,4 @@ ax4.set_ylabel("N",fontsize=13)
 ax4.set_xlim(-250,300)
 ax4.set_title("Regla de Freeman & Diaconis")
 plt.show()
+ 
