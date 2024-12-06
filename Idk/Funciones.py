@@ -238,7 +238,7 @@ def percentil(vals_in,q,interpolacion="lineal"):
         ieff=dist*(q/100)
 
         i=int(ieff)
-        j+min(i+1,len(vals)-1)
+        j=min(i+1,len(vals)-1)
         #parte fraccional
         fraction=ieff-i
 
