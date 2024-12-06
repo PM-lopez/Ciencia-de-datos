@@ -235,22 +235,18 @@ def percentil(vals_in,q,interpolacion="lineal"):
         dist=len(vals)-1
 
         #calcular el indice efectio del percentil
-        ieff=dist*q/100
-        
+        ieff=dist*(q/100)
+
+        i=int(ieff)
+        j+min(i+1,len(vals)-1)
         #parte fraccional
-        fraction=ieff-int(ieff)
-        
-        #indice inferior
-        i=int((ieff)//1)
-        j=i+1
+        fraction=ieff-i
 
         #La interoplacion lineal se implementa con
         # val_inf + (val_sup)- val_inf)*fraction,
         percentile=vals[i]+vals[j]-vals[i]*fraction
 
         return percentile
-        
-        percentile=vals
     
 def rango_intercuartilico(vals_in):
     """
