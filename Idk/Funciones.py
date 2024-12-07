@@ -333,30 +333,27 @@ def covarianza(vals_x,vals_y):
         
     covarianza=sum(tt)/len(tt)
     return covarianza
-
-def correlacion(vals_x,vals_y):
-    """
-    Calcula la coeficiente de correlacion de una lista de numeros
-    Detecta y elimina valores NaN
     
-    Paràmetros
-    ----------
+def correlacion(x, y):
+    """
+    Calcula la correlación de Pearson entre dos listas de valores. Ignora valores NaN.
+    Parámetros:
+    -----------
     x, y: list
         Listas de valores numéricos. Deben tener la misma longitud.
-        
-    Retorna
-    -------
-    correlacion:float
-        correlacion de los numeros (excluyendo NaNs)
-    """  
-    #eliminamos los valores que sean NaNs
-    x=[]
-    y=[]
+    Retorna:
+    --------
+    correlacion: float
+        Coeficiente de correlación de Pearson.
+    """
+    x_vals, y_vals = [], []
+    for xi, yi in zip(x, y):
+        if math.isfinite(xi) and math.isfinite(yi):
+            x_vals.append(xi)
+            y_vals.append(yi)
     
-    for i in range(len(vals_x)):
-        if math.isfinite(vals_x[i])&math.isfinite(vals_y[i]): 
-            x.append(vals_x[i])
-            y.append(vals_y[i])
-
-    rxy=covarianza(x,y)/(varianza(x)*varianza(y))
-    return rxy
+    cov = covarianza(x_vals, y_vals)
+    std_x = desviacion_estandar(x_vals)
+    std_y = desviacion_estandar(y_vals)
+    
+    return cov / (std_x * std_y)
