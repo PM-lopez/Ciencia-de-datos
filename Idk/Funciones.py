@@ -341,8 +341,8 @@ def correlacion(vals_x,vals_y):
     
     Paràmetros
     ----------
-    vals: lista
-        lista con los numeros
+    x, y: list
+        Listas de valores numéricos. Deben tener la misma longitud.
         
     Retorna
     -------
