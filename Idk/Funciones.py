@@ -197,7 +197,7 @@ def desviacion_estandar(vals_in):
     #Estimamos las desviaciones cuadraticas medias
     dcm=[]
     for i in vals:
-        dcm.append((v-prom)**2)
+        dcm.append((i-prom)**2)
     varianza=sum(dcm)/len(vals)
     
     return varianza**(1/2)
