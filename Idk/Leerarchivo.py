@@ -437,3 +437,51 @@ ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
 ax1.yaxis.set_minor_locator(AutoMinorLocator(5))
 ax1.legend(loc=2,scatterpoints=1,handletextpad=0.001,fontsize=11)
 plt.show()
+
+m = 100
+x = 2.8 * np.random.rand(m) - 1.4
+y = 2 + 5* x - 3 * x**2 - 8*x**3+ 4*x**4+ 0.2*np.random.randn(m)
+
+# comenzar con valores aleatorios para los parametros
+theta = [random.uniform(-1,1), random.uniform(-1,1), random.uniform(-1,1),random.uniform(-1,1),random.uniform(-1,1)] # t0 + t1*x + t2*x**2
+# Compilar las tuplas de features con los términos del polinomio
+X = np.array([(1, xv, xv**2,xv**3,xv**4) for xv in x])
+learning_rate = 0.001
+n_iter_max = 100_000
+gtol = 1e-6 # tolerancia en la norma del vector gradiente
+# Gradient descent
+iterar = True
+n_iter = 0
+while iterar:
+    # Calcular el gradiente
+    grad = gradiente_mse_pol(X, y, theta)
+    # Realizar un paso en la dirección contraria
+    # al gradiente
+    theta = paso_en_gradiente(theta, grad, -learning_rate)
+    # Check 1: ver si se alcanzó el número máximo de iteraciones
+    if n_iter > n_iter_max:
+        iterar = False
+    # Check 2: revisar si la norma del gradiente ya alcanzó el
+    # mínimo tamaño permitido por el criterio de tolerancia
+    norm_grad = sum([g**2 for g in grad])**(1/2)
+    if norm_grad < gtol:
+        iterar = False
+    # Contabilizar la iteracion
+    n_iter += 1
+print("Solucion: ", theta)
+print("Num iteraciones: ", n_iter)
+
+fig=plt.figure(1,figsize=(5,3.5),dpi=100)
+fig.subplots_adjust(left=0.15,bottom=0.12,right=0.95,top=0.97,hspace=0.24,wspace=0.20)
+ax1=fig.add_subplot(111)
+ax1.set_xlabel("X")
+ax1.set_ylabel("Y")
+
+xv=np.linspace(-1.5,1.5,100)
+yv=theta[0]+theta[1]*xv+theta[2]*xv**2+theta[3]*xv**3+theta[4]*xv**4
+ax1.plot(xv,yv,color="red")
+ax1.scatter(x,y,marker=".",fc="black",ec="none",s=40,label="Puntos")
+ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
+ax1.yaxis.set_minor_locator(AutoMinorLocator(5 ))
+ax1.legend(loc=2,scatterpoints=1,handletextpad=0.001,fontsize=11)
+plt.show()
