@@ -375,3 +375,66 @@ def gradiente_mse_pol(x,y,theta):
         g=2/len(y)+sum([(y_p-y_d)*x_d for x_d,y_d,y_p in zip(x[:,i],y,y_pred)])
         derivada-append(g)
     return derivadas
+def derivada(f, x, h):
+    """
+    Retorna el gradiente como el limite del
+    cuociente diferencial
+    """
+    return ( f(x + h) - f(x) ) / h
+
+
+def ajuste_lineal_exacto(x,y):
+    '''
+    Determina los parámetros de minimo cuadrado para
+    una ajuste lineal de la forma y = A + Bx usando
+    las ecuaciones normales
+    '''
+    x_sq = [xv**2 for xv in x]
+    x_y = [xv*yv for xv, yv in zip(x,y)]
+    delta = len(x) * sum(x_sq) - sum(x)**2
+    pendiente = (len(x) * sum(x_y) - sum(x) * sum(y)) / delta
+    intercepto = (sum(x_sq) * sum(y) - sum(x) * sum(x_y)) / delta
+    return pendiente, intercepto
+
+def mse(x, y, theta):
+    m,b = theta
+    residuos = [(y_i - (m * x_i + b))**2 for x_i, y_i in zip(x,y)]
+    mse = sum(residuos) / len(residuos)
+    return mse
+
+
+def limite_de_cuociente(x, y, f, v, i, h):
+    """
+    Retorna el limite de la diferencia de cuocientes
+    para el i-esimo parametro de una función en el punto
+    dado por v.
+    x, y : datos
+    f : función cuyo gradiente se quiere estimar
+    v : punto en el que se quiere estimar el gradiente
+    i : dimensión en la que se calcula el gradiente
+    h : tamaño del diferencial
+    """
+    # Agregamos h solo al i-esimo elemento de v
+    w = [v_j + (h if j==i else 0) for j,v_j in enumerate(v)]
+    return (f(x, y, w) - f(x, y, v)) / h
+
+def estimate_gradient(x, y, f, v, h=0.0001):
+    return [limite_de_cuociente(x, y, f, v, i, h) for i in range(len(v))]
+
+def paso_en_gradiente(v, gradient, step_size):
+    """
+    Se mueve un paso pequeño 'step_size' en la
+    dirección del gradiente desde el punto v
+    """
+    assert len(v) == len(gradient)
+    step = [step_size * g_i for g_i in gradient]
+    return [a + b for a,b in zip(v, step)]
+
+def gradiente_mse(x, y, theta):
+    pendiente, intercepto = theta
+    y_pred = [pendiente * xv + intercepto for xv in x]
+    # Derivada parcial respecto a la pendiente
+    g1 = 2 / len(x) * sum([ (y_p - y_d) * x_d for x_d, y_d, y_p in zip(x, y, y_pred) ])
+    # Derivada parcial respecto al intercepto
+    g2 = 2 / len(x) * sum([ (y_p - y_d) for x_d, y_d, y_p in zip(x, y, y_pred) ])
+    return [g1, g2]
