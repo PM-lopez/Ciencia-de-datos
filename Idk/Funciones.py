@@ -366,7 +366,7 @@ def gradiente_mse_pol(x,y,theta):
     #calcular predicciones del modelo con parametros de input
     y_pred=[]
     for cxa in x:
-        yp=[t*xv for xv,t in zip(xa,theta)]
+        yp=[t*xv for xv,t in zip(xv,theta)]
         y_pred.append(yp)
 
     # calcular derivadas parciales para cada atributo
