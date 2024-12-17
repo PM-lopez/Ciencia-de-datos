@@ -357,3 +357,21 @@ def correlacion(x, y):
     std_y = desviacion_estandar(y_vals)
     
     return cov / (std_x * std_y)
+
+def gradiente_mse_pol(x,y,theta):
+    """
+    x --> lista de tuplas de features [(x1, x2, x3 ...)_1, (x1, x2, x3 ...)_1 ...]
+    y --> lista de valores de variable independiente [y1, y2, y3, ...]
+    """
+    #calcular predicciones del modelo con parametros de input
+    y_pred=[]
+    for cxa in x:
+        yp=[t*xv for xv,t in zip(xa,theta)]
+        y_pred.append(yp)
+
+    # calcular derivadas parciales para cada atributo
+    derivadas=[]
+    for i in range(len(x[0])):
+        g=2/len(y)+sum([(y_p-y_d)*x_d for x_d,y_d,y_p in zip(x[:,i],y,y_pred)])
+        derivada-append(g)
+    return derivadas
