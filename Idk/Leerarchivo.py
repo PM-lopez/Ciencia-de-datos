@@ -205,74 +205,12 @@ plt.show()
 
 
 
-def derivada(f, x, h):
-    """
-    Retorna el gradiente como el limite del
-    cuociente diferencial
-    """
-    return ( f(x + h) - f(x) ) / h
-
-
-def ajuste_lineal_exacto(x,y):
-    '''
-    Determina los parámetros de minimo cuadrado para
-    una ajuste lineal de la forma y = A + Bx usando
-    las ecuaciones normales
-    '''
-    x_sq = [xv**2 for xv in x]
-    x_y = [xv*yv for xv, yv in zip(x,y)]
-    delta = len(x) * sum(x_sq) - sum(x)**2
-    pendiente = (len(x) * sum(x_y) - sum(x) * sum(y)) / delta
-    intercepto = (sum(x_sq) * sum(y) - sum(x) * sum(x_y)) / delta
-    return pendiente, intercepto
-
-def mse(x, y, theta):
-    m,b = theta
-    residuos = [(y_i - (m * x_i + b))**2 for x_i, y_i in zip(x,y)]
-    mse = sum(residuos) / len(residuos)
-    return mse
-
-
-def limite_de_cuociente(x, y, f, v, i, h):
-    """
-    Retorna el limite de la diferencia de cuocientes
-    para el i-esimo parametro de una función en el punto
-    dado por v.
-    x, y : datos
-    f : función cuyo gradiente se quiere estimar
-    v : punto en el que se quiere estimar el gradiente
-    i : dimensión en la que se calcula el gradiente
-    h : tamaño del diferencial
-    """
-    # Agregamos h solo al i-esimo elemento de v
-    w = [v_j + (h if j==i else 0) for j,v_j in enumerate(v)]
-    return (f(x, y, w) - f(x, y, v)) / h
-
-def estimate_gradient(x, y, f, v, h=0.0001):
-    return [limite_de_cuociente(x, y, f, v, i, h) for i in range(len(v))]
-
-def paso_en_gradiente(v, gradient, step_size):
-    """
-    Se mueve un paso pequeño 'step_size' en la
-    dirección del gradiente desde el punto v
-    """
-    assert len(v) == len(gradient)
-    step = [step_size * g_i for g_i in gradient]
-    return [a + b for a,b in zip(v, step)]
-
-def gradiente_mse(x, y, theta):
-    pendiente, intercepto = theta
-    y_pred = [pendiente * xv + intercepto for xv in x]
-    # Derivada parcial respecto a la pendiente
-    g1 = 2 / len(x) * sum([ (y_p - y_d) * x_d for x_d, y_d, y_p in zip(x, y, y_pred) ])
-    # Derivada parcial respecto al intercepto
-    g2 = 2 / len(x) * sum([ (y_p - y_d) for x_d, y_d, y_p in zip(x, y, y_pred) ])
-    return [g1, g2]
 
 import numpy as np
 import random
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
+from Funciones import gradiente_mse,paso_en_gradiente,
 # Generamos datos con tendencia lineal
 x = 2 * np.random.rand(100)
 # pendiente = 3
@@ -336,8 +274,12 @@ plt.show()
 
 n_epocas = 50
 t0, t1 = 5, 50 # hiperparámetros de la learning schedule
+
+
 def learning_schedule(t):
     return t0 / (t + t1)
+
+
 theta = np.random.rand(2) # parámetros iniciales aleatorios
 # El número de puntoss
 m = len(x)
@@ -352,3 +294,146 @@ for epoca in range(n_epocas):
         theta = paso_en_gradiente(theta, grad, -learning_rate)
         thetas.append(theta)
 print(theta)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import numpy as np
+from Funciones import gradiente_mse,gradiente_mse_pol,paso_en_gradiente
+
+m = 100
+x = 6 * np.random.rand(m) - 3
+y = 2 + x + 0.5 * x**2 + 0.5*np.random.randn(m)
+
+fig=plt.figure(1,figsize=(5,3.5),dpi=100)
+fig.subplots_adjust(left=0.15,bottom=0.12,right=0.95,top=0.97,hspace=0.24,wspace=0.20)
+ax1=fig.add_subplot(111)
+ax1.set_xlabel("X")
+ax1.set_ylabel("Y")
+ax1.scatter(x,y,marker=".",fc="black",ec="none",s=40,label="Puntos")
+
+ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
+ax1.yaxis.set_minor_locator(AutoMinorLocator(5))
+ax1.legend(loc=2,scatterpoints=1,handletextpad=0.001,fontsize=11)
+plt.show()
+
+# comenzar con valores aleatorios para los parametros
+theta = [random.uniform(-1,1), random.uniform(-1,1), random.uniform(-1,1)] # t0 + t1*x + t2*x**2
+# Compilar las tuplas de features con los términos del polinomio
+X = np.array([(1, xv, xv**2) for xv in x])
+learning_rate = 0.001
+n_iter_max = 100_000
+gtol = 1e-6 # tolerancia en la norma del vector gradiente
+# Gradient descent
+iterar = True
+n_iter = 0
+while iterar:
+    # Calcular el gradiente
+    grad = gradiente_mse_pol(X, y, theta)
+    # Realizar un paso en la dirección contraria
+    # al gradiente
+    theta = paso_en_gradiente(theta, grad, -learning_rate)
+    # Check 1: ver si se alcanzó el número máximo de iteraciones
+    if n_iter > n_iter_max:
+        iterar = False
+    # Check 2: revisar si la norma del gradiente ya alcanzó el
+    # mínimo tamaño permitido por el criterio de tolerancia
+    norm_grad = sum([g**2 for g in grad])**(1/2)
+    if norm_grad < gtol:
+        iterar = False
+    # Contabilizar la iteracion
+    n_iter += 1
+print("Solucion: ", theta)
+print("Num iteraciones: ", n_iter)
+
+m = 100
+x = 6 * np.random.rand(m) - 3
+y = 2 + x + 0.5 * x**2 + 0.5*np.random.randn(m)
+
+fig=plt.figure(1,figsize=(5,3.5),dpi=100)
+fig.subplots_adjust(left=0.15,bottom=0.12,right=0.95,top=0.97,hspace=0.24,wspace=0.20)
+ax1=fig.add_subplot(111)
+ax1.set_xlabel("X")
+ax1.set_ylabel("Y")
+ax1.scatter(x,y,marker=".",fc="black",ec="none",s=40,label="Puntos")
+xv=np.linspace(-3,3,100)
+yv=theta[0]+theta[1]*xv+theta[2]*xv**2
+ax1.plot(xv,yv,color="red")
+
+ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
+ax1.yaxis.set_minor_locator(AutoMinorLocator(5))
+ax1.legend(loc=2,scatterpoints=1,handletextpad=0.001,fontsize=11)
+plt.show()
+
+# Calcular el coeficiente de determinacion o R-quared
+
+# Suma total de cuadrados: variacion total de los y_i´s respecto a su promedio
+y_prom=np.mean(y)
+suma_total_cuadrados= sum([v**2 for v in y-y_prom])
+
+#suma de errores cuadraticos
+sum_sqerrors=[(theta[0]*xv[0]+theta[1]*xv[1]+theta[2]*xv[2]-yv)**2 for xv,yv in zip(X,y)]
+
+r_squeared=1-sum_sqerrors/suma_total_cuadrados
+print("R-squared=",r_squared)
+
+m = 100
+x = 6 * np.random.rand(m) - 3
+y = 2 + x + 0.5 * x**2 + 1.3*x**3+ 0.5*np.random.randn(m)
+
+# comenzar con valores aleatorios para los parametros
+theta = [random.uniform(-1,1), random.uniform(-1,1), random.uniform(-1,1),random.uniform(-1,1)] # t0 + t1*x + t2*x**2
+# Compilar las tuplas de features con los términos del polinomio
+X = np.array([(1, xv, xv**2,xv**3) for xv in x])
+learning_rate = 0.001
+n_iter_max = 100_000
+gtol = 1e-6 # tolerancia en la norma del vector gradiente
+# Gradient descent
+iterar = True
+n_iter = 0
+while iterar:
+    # Calcular el gradiente
+    grad = gradiente_mse_pol(X, y, theta)
+    # Realizar un paso en la dirección contraria
+    # al gradiente
+    theta = paso_en_gradiente(theta, grad, -learning_rate)
+    # Check 1: ver si se alcanzó el número máximo de iteraciones
+    if n_iter > n_iter_max:
+        iterar = False
+    # Check 2: revisar si la norma del gradiente ya alcanzó el
+    # mínimo tamaño permitido por el criterio de tolerancia
+    norm_grad = sum([g**2 for g in grad])**(1/2)
+    if norm_grad < gtol:
+        iterar = False
+    # Contabilizar la iteracion
+    n_iter += 1
+print("Solucion: ", theta)
+print("Num iteraciones: ", n_iter)
+
+fig=plt.figure(1,figsize=(5,3.5),dpi=100)
+fig.subplots_adjust(left=0.15,bottom=0.12,right=0.95,top=0.97,hspace=0.24,wspace=0.20)
+ax1=fig.add_subplot(111)
+ax1.set_xlabel("X")
+ax1.set_ylabel("Y")
+
+xv=np.linspace(-3,3,100)
+yv=theta[0]+theta[1]*xv+theta[2]*xv**2+theta[3]*xv**3
+ax1.plot(xv,yv,color="red")
+
+ax1.scatter(x,y,marker=".",fc="black",ec="none",s=40,label="Puntos")
+ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
+ax1.yaxis.set_minor_locator(AutoMinorLocator(5))
+ax1.legend(loc=2,scatterpoints=1,handletextpad=0.001,fontsize=11)
+plt.show()
