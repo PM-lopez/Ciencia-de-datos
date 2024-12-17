@@ -373,8 +373,9 @@ def gradiente_mse_pol(x,y,theta):
     derivadas=[]
     for i in range(len(x[0])):
         g=2/len(y)+sum([(y_p-y_d)*x_d for x_d,y_d,y_p in zip(x[:,i],y,y_pred)])
-        derivada-append(g)
+        derivadas.append(g)
     return derivadas
+    
 def derivada(f, x, h):
     """
     Retorna el gradiente como el limite del
