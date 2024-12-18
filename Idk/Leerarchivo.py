@@ -210,7 +210,7 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
-from Funciones import gradiente_mse,paso_en_gradiente,
+from Funciones import gradiente_mse,paso_en_gradiente
 # Generamos datos con tendencia lineal
 x = 2 * np.random.rand(100)
 # pendiente = 3
